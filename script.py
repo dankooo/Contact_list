@@ -16,7 +16,7 @@ class contact:
 		'''f = open(cont_list, 'wb')
 		pickle.dump('Количество контактов: ',contact.contacts_count,'\nКонтакты:',contact.cont,'\n',f)
 		f.close()
-		f = open(cont_list, 'rb')   #тут у меня говно
+		f = open(cont_list, 'rb')   #тут у меня говно4
 		read_list = pickle.load(f)
 		print(read_list)
 		f.close()'''
