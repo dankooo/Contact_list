@@ -1,7 +1,0 @@
-{name : sava, age : 24}
-{name : danik, age : 23}
-
-{sava : {name : sava, age : 24}
- danik : {name : danik, age : 23}
- }
- 
