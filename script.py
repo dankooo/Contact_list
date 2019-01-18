@@ -8,7 +8,7 @@ if os.path.getsize(cont_list)>0:
 		db = pickle.load(f)
 else: 
 	with open (cont_list, 'wb') as f:
-			pickle.dump(db,f)
+		pickle.dump(db,f)
 
 class contact: 
 	cont = {}
@@ -35,8 +35,8 @@ class contact:
 		with open (cont_list, 'wb') as f:
 			pickle.dump(db,f)
 
-	def del_cont(self, name):
-		wrn = input('Вы действительно хотите удалить контакт "{0}"? [Y/N]'.format(self.name))
+	def del_cont(name):
+		wrn = input('Вы действительно хотите удалить контакт "{0}"? [Y/N]'.format(name))
 		if wrn == 'N':
 			return
 		elif wrn == 'Y':
@@ -46,41 +46,41 @@ class contact:
 					db = pickle.load(f)
 		else: return
 		
-		del db[self.name] 
+		del db[name] 
 		print('Записано {0} контактов'.format(len(db)), end = '\n')
 
 		with open (cont_list, 'wb') as f:
 			pickle.dump(db,f)
 
-	def edit_cont(self, name, names_key):
+	def edit_cont(name, names_key):
 
 		if os.path.getsize(cont_list)>0:
 			with open(cont_list, 'rb') as f: 
 				global db    
 				db = pickle.load(f)
 		for keys in db:
-			if self.name == keys:
+			if name == keys:
 				subkeys = db[keys]
-				del db[self.name]
+				del db[name]
 				key = input('Введите значение: ')
-				subkeys[self.names_key] = key
+				subkeys[names_key] = key
 				db[key] = subkeys
 				break
 		else:
-			db[self.name][self.names_key] = input('Введите значение: ')
+			db[name][names_key] = input('Введите значение: ')
 		print('Контакт изменен:',key, '=>', db[key], end = '\n')
 
 		with open (cont_list, 'wb') as f:
 			pickle.dump(db,f)	
 
-	def find_cont(self, value):
+	def find_cont(value):
 		if os.path.getsize(cont_list)>0:
 			with open(cont_list, 'rb') as f: 
 				global db    
 				db = pickle.load(f)
 		for values in db:
-			if values == self.value:
-				print(self.value, '=>', db.get(self.value), end = '\n')
+			if values == value:
+				print(value, '=>', db.get(value), end = '\n')
 			else: print('Контакт не найден')
 
 
