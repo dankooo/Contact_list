@@ -2,7 +2,7 @@ import pickle
 import os
 
 cont_list='cont_list.data'
-db ={}
+db = {}
 if os.path.getsize(cont_list)>0:
 	with open(cont_list, 'rb') as f:
 		db = pickle.load(f)
@@ -10,131 +10,74 @@ else:
 	with open (cont_list, 'wb') as f:
 		pickle.dump(db,f)
 
-class contact: 
-	cont = {}
-	def __init__(self,name,phone_number,email):
+class contacts: 
+	def __init__(self,name,phone_number):
 		if not name or name.isspace():
 			self.name = phone_number
 			self.phone_number = phone_number
 		else:
 			self.phone_number = phone_number
 			self.name = name
-		self.email = email
-		print('создан контакт "{0}", номер телефона: {1}, E-mail: {2}'.format(self.name, self.phone_number, self.email), end = '\n')
-		contact.cont = {'Имя':self.name, 'Номер телефона':self.phone_number, 'E-mail':self.email}
+		print('создан контакт "{0}", номер телефона: {1}'.format(self.name, self.phone_number))
 
-		if os.path.getsize(cont_list)>0:
-			with open(cont_list, 'rb') as f: 
-				global db    
-				db = pickle.load(f)
-		
-		db[self.name] = contact.cont
-		print('Записано {0} контактов'.format(len(db)), end = '\n')
+def add_contact():
+	contact = contacts(input('Введите имя: '), input('Введите номер телефона: '))
+	db[contact.name]={'Имя':contact.name, 'Номер телефона':contact.phone_number}
+	with open (cont_list, 'wb') as f:
+		pickle.dump(db,f)
 
+	input('Нажмите любую клавишу')
+	print('\n')
 
-		with open (cont_list, 'wb') as f:
-			pickle.dump(db,f)
-
-	def del_cont(name):
-		wrn = input('Вы действительно хотите удалить контакт "{0}"? [Y/N]'.format(name))
-		if wrn == 'N':
-			return
-		elif wrn == 'Y':
-			if os.path.getsize(cont_list)>0:
-				with open(cont_list, 'rb') as f: 
-					global db    
-					db = pickle.load(f)
-		else: return
-		
-		del db[name] 
-		print('Записано {0} контактов'.format(len(db)), end = '\n')
-
-		with open (cont_list, 'wb') as f:
-			pickle.dump(db,f)
-
-	def edit_cont(name, names_key):
-
-		if os.path.getsize(cont_list)>0:
-			with open(cont_list, 'rb') as f: 
-				global db    
-				db = pickle.load(f)
-		for keys in db:
-			if name == keys:
-				subkeys = db[keys]
-				del db[name]
-				key = input('Введите значение: ')
-				subkeys[names_key] = key
-				db[key] = subkeys
-				break
-		else:
-			db[name][names_key] = input('Введите значение: ')
-		print('Контакт изменен:',key, '=>', db[key], end = '\n')
-
-		with open (cont_list, 'wb') as f:
-			pickle.dump(db,f)	
-
-	def find_cont(value):
-		if os.path.getsize(cont_list)>0:
-			with open(cont_list, 'rb') as f: 
-				global db    
-				db = pickle.load(f)
-		for values in db:
-			if values == value:
-				print(value, '=>', db.get(value), end = '\n')
-			else: print('Контакт не найден')
-
+def edit_cont():
+	with open(cont_list, 'rb') as f:
+		db = pickle.load(f)
+	contact = input('Введите имя контакта: ')
+	print(contact, '=>', db[contact])
+	key = input('Введите, какое значение нужно изменить (Имя, Номер телефона и т.д.): ')
+	if key == 'Имя':
+		subkeys = db[contact]
+		del db[contact]
+		value = input('Введите значение: ')
+		subkeys[key] = value
+		db[value] = subkeys
+		print(value, '=>', db[value])
+	else:
+		subkeys = db[contact]
+		del db[contact]
+		value = input('Введите значение: ')
+		subkeys[key] = value
+		db[contact] = subkeys
+		print(contact, '=>', db[contact])
+	with open (cont_list, 'wb') as f:
+		pickle.dump(db,f)
+	input('Нажмите любую клавишу')
+	print('\n')
 
 def show_contacts():
-	if os.path.getsize(cont_list)>0:
+	with open(cont_list, 'rb') as f:
+		db = pickle.load(f)
+		print('Записано {0} контактов'.format(len(db)))
+	for keys in db:
+		print(keys, '=>', db[keys])
+	else: print('Записано {0} контактов'.format(len(db)))
+	input('Нажмите любую клавишу')
+	print('\n')
+
+def del_contact():
+	contact = input('Введите имя контакта: ')
+	wrn = input('Вы действительно хотите удалить контакт "{0}"? [Y/N]'.format(contact))
+	if wrn == 'N':
+		return
+	elif wrn == 'Y':
 		with open(cont_list, 'rb') as f:
 			db = pickle.load(f)
-			print('Записано {0} контактов'.format(len(db)), end='\n')
-		for keys in db:
-			print(keys, '=>', db[keys])
-	else: print('Записано {0} контактов'.format(len(db)), end='\n')
-	print('\n')
-	input('Нажмите любую клавишу')
-	print('\n')
-	
-def add_contact():
-	s =[]
-	s.append(input('Введите имя: '))
-	inpt = input('Введите номер телефона: ')
-	while not inpt.isdigit():
-		print('Повторите ввод', end = '\n')
-		inpt = input('Введите номер телефона: ')
-	s.append(inpt)
-	s.append(input('Введите E-mail: '))
-	contact(s[0],s[1],s[2])
-	print('\n')
-	input('Нажмите любую клавишу')
-	print('\n')
+	else: return
+	del db[contact] 
+	print('Записано {0} контактов'.format(len(db)), end = '\n')
 
-def edit_contact():
-	s =[]
-	s.append(input('Введите Имя контакта: '))
-	s.append(input('Введите, какое значение нужно изменить (Имя, Номер телефона, E-mail): '))
-	contact.edit_cont(s[0],s[1])
-	print('\n')
-	input('Нажмите любую клавишу')
-	print('\n')
-
-
-def find_contact():
-	s = input('Введите значение: ')
-	contact.find_cont(s)
-	print('\n')
-	input('Нажмите любую клавишу')
-	print('\n')
-
-
-def delete_contact():
-	s = input('Введите Имя контакта: ')
-	contact.del_cont(s)
-	print('\n')
-	input('Нажмите любую клавишу')
-	print('\n')
-
+	with open (cont_list, 'wb') as f:
+		pickle.dump(db,f)
 
 s = 1
 while s !=0:
@@ -143,15 +86,13 @@ while s !=0:
 Меню:
 1) Создать новый контакт
 2) Изменить контакт
-3) Найти контакт
+3) Список контактов
 4) Удалить контакт
-5) Список контактов
 0) Завершить работу
 
 Введите номер пункта меню: '''
 	))
-	print('\n')
 	if s == 0:
 		break
-	menu = {1:add_contact, 2:edit_contact, 3:find_contact, 4:delete_contact, 5:show_contacts}
+	menu = {1:add_contact, 2:edit_cont, 3:show_contacts, 4:del_contact}
 	menu[s]()
