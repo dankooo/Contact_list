@@ -34,7 +34,7 @@ def edit_cont():
 		db = pickle.load(f)
 	contact = input('Введите имя контакта: ')
 	print(contact, '=>', db[contact])
-	key = input('Введите, какое значение нужно изменить (Имя, Номер телефона и т.д.): ')
+	key = input('Введите, какое значение нужно изменить/добавить (Имя, Номер телефона и т.д.): ')
 	if key == 'Имя':
 		subkeys = db[contact]
 		del db[contact]
