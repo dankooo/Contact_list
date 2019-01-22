@@ -11,7 +11,7 @@ else:
         pickle.dump(db, f)
 
 
-class contacts:
+class Contacts:
     def __init__(self, name, phone_number):
         if not name or name.isspace():
             self.name = phone_number
@@ -24,7 +24,7 @@ class contacts:
 
 
 def add_contact():
-    contact = contacts(input('Введите имя: '),
+    contact = Contacts(input('Введите имя: '),
                        input('Введите номер телефона: '))
     db[contact.name] = {'Имя': contact.name,
                         'Номер телефона': contact.phone_number}
