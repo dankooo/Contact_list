@@ -94,7 +94,7 @@ def del_contact():
 
 
 s = 1
-while s != 0:
+while s:
     s = int(input('''Контакты
 Меню:
 1) Создать новый контакт
