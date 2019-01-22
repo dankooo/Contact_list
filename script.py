@@ -4,7 +4,7 @@ import pprint
 
 cont_list = 'cont_list.data'
 db = {}
-if os.path.getsize(cont_list) > 0:
+if os.path.isfile(cont_list) and os.path.getsize(cont_list) > 0:
     with open(cont_list, 'rb') as f:
         db = pickle.load(f)
 else:
