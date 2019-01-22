@@ -25,8 +25,8 @@ class Contacts:
 
 
 def add_contact():
-    contact = Contacts(input('Введите имя: '),
-                       input('Введите номер телефона: '))
+    contact = Contacts(input('Введите имя: ').strip(),
+                       input('Введите номер телефона: ').strip())
     db[contact.name] = {'Имя': contact.name,
                         'Номер телефона': contact.phone_number}
     with open(cont_list, 'wb') as f:
@@ -38,15 +38,15 @@ def add_contact():
 def edit_cont():
     with open(cont_list, 'rb') as f:
         db = pickle.load(f)
-    contact = input('Введите имя контакта: ')
+    contact = input('Введите имя контакта: ').strip()
     print(contact, '=>', db[contact])
     key = input(
         'Введите, какое значение нужно изменить/добавить \
-		(Имя, Номер телефона и т.д.): ')
+		(Имя, Номер телефона и т.д.): ').strip()
     if key == 'Имя':
         subkeys = db[contact]
         del db[contact]
-        value = input('Введите значение: ')
+        value = input('Введите значение: ').strip()
         subkeys[key] = value
         db[value] = subkeys
         print(value, '=>', db[value])
