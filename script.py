@@ -86,7 +86,6 @@ def del_contact():
         return
     del db[contact]
     print('Записано {0} контактов'.format(len(db)))
-
     with open(cont_list, 'wb') as f:
         pickle.dump(db, f)
 
