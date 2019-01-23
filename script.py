@@ -64,13 +64,11 @@ def edit_cont():
 
 
 def show_contacts():
-    if os.path.getsize(cont_list) > 0:
-        with open(cont_list, 'rb') as f:
-            db = pickle.load(f)
+    with open(cont_list, 'rb') as f:
+        db = pickle.load(f)
         print('Записано {0} контактов'.format(len(db)))
+    if len(db) > 0:
         pprint.pprint(db)
-    else:
-        print('Записано {0} контактов'.format(len(db)))
     input('Нажмите любую клавишу')
     print('\n')
 
@@ -87,7 +85,7 @@ def del_contact():
     else:
         return
     del db[contact]
-    print('Записано {0} контактов'.format(len(db)), end='\n')
+    print('Записано {0} контактов'.format(len(db)))
 
     with open(cont_list, 'wb') as f:
         pickle.dump(db, f)
